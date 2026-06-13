@@ -26,6 +26,7 @@
             
             <!-- Kelola Data Barang -->
             <a href="{{ route('barang.index') }}" class="sidebar-item flex items-center gap-4 rounded-lg px-3 py-3 text-slate-300 transition duration-200 hover:bg-slate-700 hover:text-white group" title="Kelola Data Barang">
+
                 <div class="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded bg-emerald-500/20 text-emerald-400 group-hover:bg-emerald-500 group-hover:text-white">
                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
@@ -34,8 +35,20 @@
                 <span class="hidden md:inline font-medium text-sm">Kelola Data Barang</span>
             </a>
 
+            <!-- Data Cabang -->
+            <a href="{{ route('cabang.index') }}" class="sidebar-item flex items-center gap-4 rounded-lg px-3 py-3 text-slate-300 transition duration-200 hover:bg-slate-700 hover:text-white group" title="Data Cabang">
+
+                <div class="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded bg-indigo-500/20 text-indigo-400 group-hover:bg-indigo-500 group-hover:text-white">
+                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12h18M3 7h18M3 17h18" />
+                    </svg>
+                </div>
+                <span class="hidden md:inline font-medium text-sm">Data Cabang</span>
+            </a>
+
             <!-- Kelola Barang Masuk -->
-            <a href="{{ route('warehouse.inbound.index') }}" class="sidebar-item flex items-center gap-4 rounded-lg px-3 py-3 text-slate-300 transition duration-200 hover:bg-slate-700 hover:text-white group" title="Kelola Barang Masuk">
+
+            <a href="{{ route('barang-masuk.index') }}" class="sidebar-item flex items-center gap-4 rounded-lg px-3 py-3 text-slate-300 transition duration-200 hover:bg-slate-700 hover:text-white group" title="Kelola Barang Masuk">
                 <div class="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded bg-blue-500/20 text-blue-400 group-hover:bg-blue-500 group-hover:text-white">
                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -78,7 +91,7 @@
         <!-- Reports Section -->
         <div class="space-y-2">
             <p class="hidden px-3 text-xs font-semibold uppercase tracking-widest text-slate-400 md:block">Laporan</p>
-            <a href="#" class="sidebar-item flex items-center gap-4 rounded-lg px-3 py-3 text-slate-300 transition duration-200 hover:bg-slate-700 hover:text-white group">
+            <a href="{{ route('warehouse.reports.stock.index') }}" class="sidebar-item flex items-center gap-4 rounded-lg px-3 py-3 text-slate-300 transition duration-200 hover:bg-slate-700 hover:text-white group">
                 <div class="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded bg-red-500/20 text-red-400 group-hover:bg-red-500 group-hover:text-white">
                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
@@ -87,6 +100,7 @@
                 <span class="hidden md:inline font-medium text-sm">Laporan Stok</span>
             </a>
         </div>
+
 
         <!-- Settings Section -->
         <div class="space-y-2">

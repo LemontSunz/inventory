@@ -146,7 +146,7 @@
                 <h3 class="font-semibold text-gray-900">Aksi Cepat</h3>
             </div>
             <div class="space-y-2 p-6">
-                <a href="{{ route('warehouse.inbound.index') }}" class="flex items-center gap-3 rounded-lg bg-blue-50 px-4 py-3 text-sm font-medium text-blue-700 hover:bg-blue-100 transition">
+                <a href="{{ route('barang-masuk.index') }}" class="flex items-center gap-3 rounded-lg bg-blue-50 px-4 py-3 text-sm font-medium text-blue-700 hover:bg-blue-100 transition">
                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>

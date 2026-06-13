@@ -99,7 +99,11 @@ class BarangController extends Controller
     public function destroy(Barang $barang)
     {
         try {
-            $barang->delete();
+            if (method_exists($barang, 'forceDelete')) {
+                $barang->forceDelete();
+            } else {
+                $barang->delete();
+            }
 
             return redirect()
                 ->route('barang.index')
