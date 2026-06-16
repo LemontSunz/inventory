@@ -3,10 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreIncomingGoodsRequest;
+use App\Http\Requests\UpdateIncomingGoodsRequest;
+use App\Models\Barang;
+use App\Models\IncomingGoods;
+use App\Models\IncomingGoodsDetail;
+use App\Models\RackLocation;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\BarangMasuk;
-use App\Models\Barang;
+use Illuminate\Support\Facades\Log;
 
 class BarangMasukController extends Controller
 {
@@ -14,122 +20,179 @@ class BarangMasukController extends Controller
     {
         $search = $request->get('search');
 
-        $query = BarangMasuk::with('barang')->orderBy('tanggal_masuk', 'desc');
+        $query = IncomingGoods::with(['supplier', 'details.item'])
+            ->orderBy('receiving_date', 'desc');
 
         if ($search) {
-            $query->where('supplier', 'like', "%{$search}%")
-                  ->orWhereHas('barang', function ($q) use ($search) {
-                      $q->where('kode_barang', 'like', "%{$search}%")
+            $query->where('receiving_code', 'like', "%{$search}%")
+                ->orWhere('container_number', 'like', "%{$search}%")
+                ->orWhereHas('supplier', function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%");
+                })
+                ->orWhereHas('details.item', function ($q) use ($search) {
+                    $q->where('kode_barang', 'like', "%{$search}%")
                         ->orWhere('nama_barang', 'like', "%{$search}%");
-                  });
+                });
         }
 
-        $barangMasuks = $query->paginate(10)->withQueryString();
+        $incomingGoods = $query->paginate(10)->withQueryString();
 
-        return view('barang-masuk.index', compact('barangMasuks'));
+        return view('barang-masuk.index', compact('incomingGoods'));
     }
 
     public function create()
     {
         $barangs = Barang::orderBy('nama_barang')->get();
-        return view('barang-masuk.create', compact('barangs'));
+        $suppliers = Supplier::orderBy('name')->get();
+        $rackLocations = RackLocation::orderBy('code')->get();
+
+        return view('barang-masuk.create', compact('barangs', 'suppliers', 'rackLocations'));
     }
 
-    public function store(Request $request)
+    public function store(StoreIncomingGoodsRequest $request)
     {
-        $data = $request->validate([
-            'barang_id' => 'required|exists:barang,id',
-            'tanggal_masuk' => 'required|date',
-            'qty_masuk' => 'required|integer|min:1',
-            'supplier' => 'required|string',
-            'keterangan' => 'nullable|string',
-        ]);
+        $validated = $request->validated();
+        $userId = $request->user()->id;
 
         try {
-            DB::transaction(function () use ($data) {
-                $barangMasuk = BarangMasuk::create($data);
+            DB::transaction(function () use ($validated, $userId) {
+                $incomingGoods = IncomingGoods::create([
+                    'receiving_code' => $validated['receiving_code'],
+                    'container_number' => $validated['container_number'] ?? null,
+                    'receiving_date' => $validated['receiving_date'],
+                    'supplier_id' => $validated['supplier_id'],
+                    'delivery_order_number' => $validated['delivery_order_number'] ?? null,
+                    'description' => $validated['description'] ?? null,
+                    'created_by' => $userId,
+                ]);
 
-                // Update stock
-                $barang = Barang::findOrFail($data['barang_id']);
-                $barang->stok = ($barang->stok ?? 0) + $data['qty_masuk'];
-                $barang->save();
+                foreach ($validated['items'] as $item) {
+                    IncomingGoodsDetail::create([
+                        'incoming_goods_id' => $incomingGoods->id,
+                        'item_id' => $item['item_id'],
+                        'quantity_received' => $item['quantity_received'],
+                        'rack_location_id' => $item['rack_location_id'],
+                    ]);
+
+                    $barang = Barang::findOrFail($item['item_id']);
+                    $barang->stok = ($barang->stok ?? 0) + (int) $item['quantity_received'];
+
+                    $rackLocation = RackLocation::find($item['rack_location_id']);
+                    if ($rackLocation) {
+                        $barang->lokasi_rak = $rackLocation->code;
+                    }
+
+                    $barang->save();
+                }
             });
 
-            return redirect()->route('barang-masuk.index')->with('success', 'Data barang masuk berhasil disimpan');
+            return redirect()->route('barang-masuk.index')->with('success', 'Transaksi barang masuk berhasil disimpan.');
         } catch (\Exception $e) {
-            return back()->withInput()->with('error', 'Terjadi kesalahan pada data yang dimasukkan');
+            Log::error('BarangMasukController@store failed', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+                'input' => $validated,
+            ]);
+
+            return back()->withInput()->with('error', 'Terjadi kesalahan saat menyimpan transaksi barang masuk.');
         }
     }
 
     public function edit($id)
     {
-        $barangMasuk = BarangMasuk::findOrFail($id);
+        $incomingGoods = IncomingGoods::with(['details'])->findOrFail($id);
         $barangs = Barang::orderBy('nama_barang')->get();
-        return view('barang-masuk.edit', compact('barangMasuk', 'barangs'));
+        $suppliers = Supplier::orderBy('name')->get();
+        $rackLocations = RackLocation::orderBy('code')->get();
+
+        return view('barang-masuk.edit', compact('incomingGoods', 'barangs', 'suppliers', 'rackLocations'));
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateIncomingGoodsRequest $request, $id)
     {
-        $barangMasuk = BarangMasuk::findOrFail($id);
-
-        $data = $request->validate([
-            'barang_id' => 'required|exists:barang,id',
-            'tanggal_masuk' => 'required|date',
-            'qty_masuk' => 'required|integer|min:1',
-            'supplier' => 'required|string',
-            'keterangan' => 'nullable|string',
-        ]);
+        $incomingGoods = IncomingGoods::with('details')->findOrFail($id);
+        $validated = $request->validated();
 
         try {
-            DB::transaction(function () use ($data, $barangMasuk) {
-                // adjust stock
-                $oldQty = $barangMasuk->qty_masuk;
-
-                // If barang_id changed, revert old barang stok and add to new barang
-                if ($barangMasuk->barang_id != $data['barang_id']) {
-                    $oldBarang = Barang::find($barangMasuk->barang_id);
-                    if ($oldBarang) {
-                        $oldBarang->stok = max(0, ($oldBarang->stok ?? 0) - $oldQty);
-                        $oldBarang->save();
+            DB::transaction(function () use ($incomingGoods, $validated) {
+                foreach ($incomingGoods->details as $detail) {
+                    $barang = Barang::find($detail->item_id);
+                    if ($barang) {
+                        $barang->stok = max(0, ($barang->stok ?? 0) - $detail->quantity_received);
+                        $barang->save();
                     }
-
-                    $newBarang = Barang::findOrFail($data['barang_id']);
-                    $newBarang->stok = ($newBarang->stok ?? 0) + $data['qty_masuk'];
-                    $newBarang->save();
-                } else {
-                    $barang = Barang::findOrFail($data['barang_id']);
-                    $diff = $data['qty_masuk'] - $oldQty;
-                    $barang->stok = max(0, ($barang->stok ?? 0) + $diff);
-                    $barang->save();
                 }
 
-                $barangMasuk->update($data);
+                $incomingGoods->update([
+                    'receiving_code' => $validated['receiving_code'],
+                    'container_number' => $validated['container_number'] ?? null,
+                    'receiving_date' => $validated['receiving_date'],
+                    'supplier_id' => $validated['supplier_id'],
+                    'delivery_order_number' => $validated['delivery_order_number'] ?? null,
+                    'description' => $validated['description'] ?? null,
+                ]);
+
+                $incomingGoods->details()->delete();
+
+                foreach ($validated['items'] as $item) {
+                    IncomingGoodsDetail::create([
+                        'incoming_goods_id' => $incomingGoods->id,
+                        'item_id' => $item['item_id'],
+                        'quantity_received' => $item['quantity_received'],
+                        'rack_location_id' => $item['rack_location_id'],
+                    ]);
+
+                    $barang = Barang::findOrFail($item['item_id']);
+                    $barang->stok = ($barang->stok ?? 0) + (int) $item['quantity_received'];
+
+                    $rackLocation = RackLocation::find($item['rack_location_id']);
+                    if ($rackLocation) {
+                        $barang->lokasi_rak = $rackLocation->code;
+                    }
+
+                    $barang->save();
+                }
             });
 
-            return redirect()->route('barang-masuk.index')->with('success', 'Data barang masuk berhasil diperbarui');
+            return redirect()->route('barang-masuk.index')->with('success', 'Transaksi barang masuk berhasil diperbarui.');
         } catch (\Exception $e) {
-            return back()->withInput()->with('error', 'Terjadi kesalahan pada data yang dimasukkan');
+            Log::error('BarangMasukController@update failed', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+                'input' => $validated,
+                'incoming_goods_id' => $incomingGoods->id,
+            ]);
+
+            return back()->withInput()->with('error', 'Terjadi kesalahan saat memperbarui transaksi barang masuk.');
         }
     }
 
     public function destroy($id)
     {
-        $barangMasuk = BarangMasuk::findOrFail($id);
+        $incomingGoods = IncomingGoods::with('details')->findOrFail($id);
 
         try {
-            DB::transaction(function () use ($barangMasuk) {
-                $barang = Barang::find($barangMasuk->barang_id);
-                if ($barang) {
-                    $barang->stok = max(0, ($barang->stok ?? 0) - $barangMasuk->qty_masuk);
-                    $barang->save();
+            DB::transaction(function () use ($incomingGoods) {
+                foreach ($incomingGoods->details as $detail) {
+                    $barang = Barang::find($detail->item_id);
+                    if ($barang) {
+                        $barang->stok = max(0, ($barang->stok ?? 0) - $detail->quantity_received);
+                        $barang->save();
+                    }
                 }
 
-                $barangMasuk->delete();
+                $incomingGoods->delete();
             });
 
-            return redirect()->route('barang-masuk.index')->with('success', 'Data barang masuk berhasil dihapus');
+            return redirect()->route('barang-masuk.index')->with('success', 'Transaksi barang masuk berhasil dihapus.');
         } catch (\Exception $e) {
-            return back()->with('error', 'Terjadi kesalahan pada data yang dimasukkan');
+            Log::error('BarangMasukController@destroy failed', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+                'incoming_goods_id' => $incomingGoods->id,
+            ]);
+
+            return back()->with('error', 'Terjadi kesalahan saat menghapus transaksi barang masuk.');
         }
     }
 }

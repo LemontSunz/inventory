@@ -14,6 +14,7 @@ class BarangMasuk extends Model
         'tanggal_masuk',
         'qty_masuk',
         'supplier',
+        'lokasi_rak',
         'keterangan',
     ];
 

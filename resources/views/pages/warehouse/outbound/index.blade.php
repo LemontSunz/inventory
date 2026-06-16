@@ -68,6 +68,8 @@
                         <th class="px-6 py-4 text-left font-semibold text-gray-900">No</th>
                         <th class="px-6 py-4 text-left font-semibold text-gray-900">Barang</th>
                         <th class="px-6 py-4 text-left font-semibold text-gray-900">Cabang Tujuan</th>
+                        <th class="px-6 py-4 text-left font-semibold text-gray-900">Driver</th>
+                        <th class="px-6 py-4 text-left font-semibold text-gray-900">Kendaraan</th>
                         <th class="px-6 py-4 text-left font-semibold text-gray-900">Jumlah Keluar</th>
                         <th class="px-6 py-4 text-left font-semibold text-gray-900">Tanggal</th>
                         <th class="px-6 py-4 text-left font-semibold text-gray-900">Keterangan</th>
@@ -81,6 +83,8 @@
                             <td class="px-6 py-4 font-medium text-gray-900">{{ $barangKeluars->firstItem() + $loop->index }}</td>
                             <td class="px-6 py-4 text-gray-600">{{ $item->barang->nama_barang ?? '-' }}</td>
                             <td class="px-6 py-4 text-gray-600">{{ $item->cabang->nama_cabang ?? '-' }}</td>
+                            <td class="px-6 py-4 text-gray-600">{{ $item->driver->name ?? '-' }}</td>
+                            <td class="px-6 py-4 text-gray-600">{{ $item->kendaraan->kode_kendaraan ?? '-' }}</td>
                             <td class="px-6 py-4 text-gray-600">{{ $item->jumlah_keluar }} unit</td>
                             <td class="px-6 py-4 text-gray-600">{{ optional($item->tanggal_keluar)->format('d M Y') ?? '-' }}</td>
                             <td class="px-6 py-4 text-gray-600">{{ $item->keterangan ?? '-' }}</td>

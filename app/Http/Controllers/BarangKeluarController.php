@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Barang;
 use App\Models\BarangKeluar;
 use App\Models\Cabang;
+use App\Models\Driver;
+use App\Models\Kendaraan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -15,7 +17,7 @@ class BarangKeluarController extends Controller
     {
         $search = $request->get('search');
 
-        $query = BarangKeluar::with(['barang', 'cabang'])
+        $query = BarangKeluar::with(['barang', 'cabang', 'driver', 'kendaraan'])
             ->orderBy('tanggal_keluar', 'desc');
 
         if ($search) {
@@ -39,8 +41,10 @@ class BarangKeluarController extends Controller
     {
         $barangs = Barang::orderBy('nama_barang')->get();
         $cabangs = Cabang::orderBy('nama_cabang')->get();
+        $drivers = Driver::where('status', Driver::STATUS_AVAILABLE)->orderBy('name')->get();
+        $kendaraans = Kendaraan::where('status', Kendaraan::STATUS_SIAP)->orderBy('nama_kendaraan')->get();
 
-        return view('pages.warehouse.outbound.create', compact('barangs', 'cabangs'));
+        return view('pages.warehouse.outbound.create', compact('barangs', 'cabangs', 'drivers', 'kendaraans'));
     }
 
     public function store(Request $request)
@@ -48,6 +52,8 @@ class BarangKeluarController extends Controller
         $data = $request->validate([
             'barang_id' => 'required|exists:barang,id',
             'cabang_id' => 'required|exists:cabang,id',
+            'driver_id' => 'nullable|exists:drivers,id',
+            'kendaraan_id' => 'nullable|exists:kendaraan,id',
             'jumlah_keluar' => 'required|integer|min:1',
             'tanggal_keluar' => 'required|date',
             'keterangan' => 'nullable|string',
@@ -78,11 +84,13 @@ class BarangKeluarController extends Controller
 
     public function edit($id)
     {
-        $barangKeluar = BarangKeluar::with(['barang', 'cabang'])->findOrFail($id);
+        $barangKeluar = BarangKeluar::with(['barang', 'cabang', 'driver', 'kendaraan'])->findOrFail($id);
         $barangs = Barang::orderBy('nama_barang')->get();
         $cabangs = Cabang::orderBy('nama_cabang')->get();
+        $drivers = Driver::where('status', Driver::STATUS_AVAILABLE)->orWhere('id', $barangKeluar->driver_id)->orderBy('name')->get();
+        $kendaraans = Kendaraan::where('status', Kendaraan::STATUS_SIAP)->orWhere('id', $barangKeluar->kendaraan_id)->orderBy('nama_kendaraan')->get();
 
-        return view('pages.warehouse.outbound.edit', compact('barangKeluar', 'barangs', 'cabangs'));
+        return view('pages.warehouse.outbound.edit', compact('barangKeluar', 'barangs', 'cabangs', 'drivers', 'kendaraans'));
     }
 
     public function update(Request $request, $id)
@@ -92,6 +100,8 @@ class BarangKeluarController extends Controller
         $data = $request->validate([
             'barang_id' => 'required|exists:barang,id',
             'cabang_id' => 'required|exists:cabang,id',
+            'driver_id' => 'nullable|exists:drivers,id',
+            'kendaraan_id' => 'nullable|exists:kendaraan,id',
             'jumlah_keluar' => 'required|integer|min:1',
             'tanggal_keluar' => 'required|date',
             'keterangan' => 'nullable|string',

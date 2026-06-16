@@ -1,16 +1,15 @@
 @extends('layouts.app')
 
-@section('title', 'Laporan Stok - LogistikPro')
+@section('title', 'Laporan Stok Barang - LogistikPro')
 
 @section('content')
 <div class="space-y-6">
     <!-- Header -->
     <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
-            <h2 class="text-3xl font-bold text-gray-900">Laporan Stok</h2>
-            <p class="mt-2 text-gray-600">Ringkasan stok berdasarkan data masuk/keluar pada rentang tanggal</p>
+            <h2 class="text-3xl font-bold text-gray-900">Laporan Stok Barang</h2>
+            <p class="mt-2 text-gray-600">Ringkasan stok berdasarkan data masuk/keluar dan level stok saat ini</p>
         </div>
-
         <div class="flex gap-2">
             <button type="button" onclick="window.print()" class="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -86,10 +85,10 @@
     </div>
 
     <!-- Filter & Search -->
-    <form method="GET" action="{{ route('warehouse.reports.stock.index') }}" class="rounded-xl bg-white shadow-sm border border-gray-200 p-4">
+    <form method="GET" action="{{ route('warehouse.stock.index') }}" class="rounded-xl bg-white shadow-sm border border-gray-200 p-4">
         <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div class="flex-1">
-                <label class="block text-sm font-medium text-gray-700">Search (Kode / Nama)</label>
+                <label class="block text-sm font-medium text-gray-700">Cari Kode / Nama</label>
                 <input type="search" name="search" value="{{ $search }}" placeholder="Contoh: BR-001 atau nama barang..."
                     class="mt-1 w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2 text-sm text-gray-700 placeholder-gray-400 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-100" />
             </div>
@@ -183,4 +182,3 @@
     </div>
 </div>
 @endsection
-

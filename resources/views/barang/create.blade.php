@@ -63,11 +63,13 @@
                     <label for="kategori" class="block text-sm font-medium text-gray-700 mb-2">Kategori <span class="text-red-600">*</span></label>
                     <select id="kategori" name="kategori" class="w-full rounded-lg border @error('kategori') border-red-500 @else border-gray-300 @enderror bg-white px-4 py-2.5 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100 transition">
                         <option value="">Pilih kategori</option>
-                        <option value="Elektronik" {{ old('kategori') == 'Elektronik' ? 'selected' : '' }}>Elektronik</option>
-                        <option value="Aksesoris" {{ old('kategori') == 'Aksesoris' ? 'selected' : '' }}>Aksesoris</option>
-                        <option value="Peralatan" {{ old('kategori') == 'Peralatan' ? 'selected' : '' }}>Peralatan</option>
-                        <option value="Bahan Baku" {{ old('kategori') == 'Bahan Baku' ? 'selected' : '' }}>Bahan Baku</option>
-                        <option value="Lainnya" {{ old('kategori') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                        <option value="Refrigeration" {{ old('kategori') == 'Refrigeration' ? 'selected' : '' }}>Refrigeration</option>
+                        <option value="Kitchen Equipment" {{ old('kategori') == 'Kitchen Equipment' ? 'selected' : '' }}>Kitchen Equipment</option>
+                        <option value="Packing" {{ old('kategori') == 'Packing' ? 'selected' : '' }}>Packing</option>
+                        <option value="Bakery Equipment" {{ old('kategori') == 'Bakery Equipment' ? 'selected' : '' }}>Bakery Equipment</option>
+                        @if(!in_array(old('kategori'), ['Refrigeration','Kitchen Equipment','Packing','Bakery Equipment'], true) && old('kategori'))
+                            <option value="{{ old('kategori') }}" selected>{{ old('kategori') }}</option>
+                        @endif
                     </select>
                     @error('kategori')
                         <p class="mt-1.5 text-sm text-red-600 flex items-center gap-1">
@@ -102,41 +104,12 @@
                 </div>
             </div>
 
-            <!-- Row: Stok & Lokasi Rak -->
-            <div class="grid gap-4 sm:grid-cols-2">
-                <!-- Stok -->
-                <div>
-                    <label for="stok" class="block text-sm font-medium text-gray-700 mb-2">Stok <span class="text-red-600">*</span></label>
-                    <input type="number" id="stok" name="stok" value="{{ old('stok', 0) }}" min="0" placeholder="0" class="w-full rounded-lg border @error('stok') border-red-500 @else border-gray-300 @enderror bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100 transition" />
-                    @error('stok')
-                        <p class="mt-1.5 text-sm text-red-600 flex items-center gap-1">
-                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            {{ $message }}
-                        </p>
-                    @enderror
-                </div>
-
-                <!-- Lokasi Rak -->
-                <div>
-                    <label for="lokasi_rak" class="block text-sm font-medium text-gray-700 mb-2">Lokasi Rak <span class="text-red-600">*</span></label>
-                    <input type="text" id="lokasi_rak" name="lokasi_rak" value="{{ old('lokasi_rak') }}" placeholder="Contoh: A-01-01" class="w-full rounded-lg border @error('lokasi_rak') border-red-500 @else border-gray-300 @enderror bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100 transition" />
-                    @error('lokasi_rak')
-                        <p class="mt-1.5 text-sm text-red-600 flex items-center gap-1">
-                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            {{ $message }}
-                        </p>
-                    @enderror
-                </div>
-            </div>
+            <!-- (Stok dan Lokasi Rak tidak digunakan) -->
 
             <!-- Deskripsi -->
             <div>
                 <label for="deskripsi" class="block text-sm font-medium text-gray-700 mb-2">Deskripsi <span class="text-gray-400">(Opsional)</span></label>
-                <textarea id="deskripsi" name="deskripsi" rows="4" placeholder="Masukkan deskripsi barang (spesifikasi, fitur, dll)" class="w-full rounded-lg border @error('deskripsi') border-red-500 @else border-gray-300 @enderror bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100 transition resize-none">{{ old('deskripsi') }}</textarea>
+                <textarea id="deskripsi" name="deskripsi" rows="4" placeholder="Masukkan deskripsi barang (spesifikasi, fitur, dll)" class="w-full rounded-lg border @error('deskripsi') border-red-500 @else border-gray-300 @enderror bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100 transition resize-none">{{ old('deskripsi', '') }}</textarea>
                 <p class="mt-1.5 text-xs text-gray-500">Maksimal 1000 karakter</p>
                 @error('deskripsi')
                     <p class="mt-1.5 text-sm text-red-600 flex items-center gap-1">

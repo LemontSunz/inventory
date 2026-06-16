@@ -62,7 +62,7 @@
             <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
                 <div class="flex-1">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Cari</label>
-                    <input type="search" name="search" placeholder="Cari kode barang, nama barang, supplier..." value="{{ request('search') }}" class="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2 text-sm text-gray-700 placeholder-gray-400 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-100" />
+                    <input type="search" name="search" placeholder="Cari kode penerimaan, nama supplier, atau barang..." value="{{ request('search') }}" class="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2 text-sm text-gray-700 placeholder-gray-400 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-100" />
                 </div>
                 <div class="flex gap-2">
                     <button type="submit" class="inline-flex items-center gap-2 rounded-lg border border-blue-300 bg-blue-50 px-4 py-2 text-sm font-medium text-blue-700 hover:bg-blue-100 transition">Cari</button>
@@ -73,29 +73,29 @@
     </div>
 
     <div class="overflow-hidden rounded-xl bg-white shadow-sm border border-gray-200">
-        @if($barangMasuks->count() > 0)
+        @if($incomingGoods->count() > 0)
             <div class="overflow-x-auto">
                 <table class="w-full text-sm">
                     <thead class="border-b border-gray-200 bg-gray-50">
                         <tr>
                             <th class="px-6 py-4 text-left font-semibold text-gray-900">No</th>
-                            <th class="px-6 py-4 text-left font-semibold text-gray-900">Tanggal Masuk</th>
-                            <th class="px-6 py-4 text-left font-semibold text-gray-900">Kode Barang</th>
-                            <th class="px-6 py-4 text-left font-semibold text-gray-900">Nama Barang</th>
+                            <th class="px-6 py-4 text-left font-semibold text-gray-900">No. Terima</th>
+                            <th class="px-6 py-4 text-left font-semibold text-gray-900">Tanggal</th>
                             <th class="px-6 py-4 text-left font-semibold text-gray-900">Supplier</th>
-                            <th class="px-6 py-4 text-left font-semibold text-gray-900">Qty Masuk</th>
+                            <th class="px-6 py-4 text-left font-semibold text-gray-900">Total Item</th>
+                            <th class="px-6 py-4 text-left font-semibold text-gray-900">Total Qty</th>
                             <th class="px-6 py-4 text-left font-semibold text-gray-900">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
-                        @foreach($barangMasuks as $item)
+                        @foreach($incomingGoods as $item)
                             <tr class="hover:bg-gray-50 transition">
-                                <td class="px-6 py-4 text-gray-900">{{ $barangMasuks->firstItem() + $loop->index }}</td>
-                                <td class="px-6 py-4 text-gray-600">{{ $item->tanggal_masuk->format('Y-m-d') }}</td>
-                                <td class="px-6 py-4 text-gray-700">{{ $item->barang->kode_barang ?? '-' }}</td>
-                                <td class="px-6 py-4 text-gray-900">{{ $item->barang->nama_barang ?? '-' }}</td>
-                                <td class="px-6 py-4 text-gray-700">{{ $item->supplier }}</td>
-                                <td class="px-6 py-4 font-medium">{{ $item->qty_masuk }}</td>
+                                <td class="px-6 py-4 text-gray-900">{{ $incomingGoods->firstItem() + $loop->index }}</td>
+                                <td class="px-6 py-4 text-gray-700">{{ $item->receiving_code }}</td>
+                                <td class="px-6 py-4 text-gray-600">{{ $item->receiving_date->format('Y-m-d') }}</td>
+                                <td class="px-6 py-4 text-gray-900">{{ $item->supplier->name ?? '-' }}</td>
+                                <td class="px-6 py-4 text-gray-700">{{ $item->details->count() }}</td>
+                                <td class="px-6 py-4 font-medium">{{ $item->details->sum('quantity_received') }}</td>
                                 <td class="px-6 py-4">
                                     <div class="flex gap-2">
                                         <a href="{{ route('barang-masuk.edit', $item->id) }}" class="inline-flex items-center gap-1 rounded-md bg-blue-50 px-3 py-1.5 text-xs font-medium text-blue-700 hover:bg-blue-100 transition">Edit</a>
@@ -112,25 +112,25 @@
                 </table>
             </div>
 
-            <div class="flex items-center justify-between border-t border-gray-200 px-6 py-4">
-                <p class="text-sm text-gray-600">Menampilkan <span class="font-semibold">{{ $barangMasuks->firstItem() }}</span> hingga <span class="font-semibold">{{ $barangMasuks->lastItem() }}</span> dari <span class="font-semibold">{{ $barangMasuks->total() }}</span> transaksi</p>
-                <div class="flex gap-2">
-                    @if($barangMasuks->onFirstPage())
+            <div class="flex flex-col gap-4 border-t border-gray-200 px-6 py-4 md:flex-row md:items-center md:justify-between">
+                <p class="text-sm text-gray-600">Menampilkan <span class="font-semibold">{{ $incomingGoods->firstItem() }}</span> hingga <span class="font-semibold">{{ $incomingGoods->lastItem() }}</span> dari <span class="font-semibold">{{ $incomingGoods->total() }}</span> transaksi</p>
+                <div class="flex flex-wrap gap-2">
+                    @if($incomingGoods->onFirstPage())
                         <button disabled class="rounded-lg border border-gray-300 bg-gray-100 px-3 py-2 text-sm font-medium text-gray-500 cursor-not-allowed">← Sebelumnya</button>
                     @else
-                        <a href="{{ $barangMasuks->previousPageUrl() }}" class="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition">← Sebelumnya</a>
+                        <a href="{{ $incomingGoods->previousPageUrl() }}" class="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition">← Sebelumnya</a>
                     @endif
 
-                    @foreach($barangMasuks->getUrlRange(1, $barangMasuks->lastPage()) as $page => $url)
-                        @if($page == $barangMasuks->currentPage())
+                    @foreach($incomingGoods->getUrlRange(1, $incomingGoods->lastPage()) as $page => $url)
+                        @if($page == $incomingGoods->currentPage())
                             <button disabled class="rounded-lg border border-blue-300 bg-blue-50 px-3 py-2 text-sm font-medium text-blue-700">{{ $page }}</button>
                         @else
                             <a href="{{ $url }}" class="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition">{{ $page }}</a>
                         @endif
                     @endforeach
 
-                    @if($barangMasuks->hasMorePages())
-                        <a href="{{ $barangMasuks->nextPageUrl() }}" class="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition">Selanjutnya →</a>
+                    @if($incomingGoods->hasMorePages())
+                        <a href="{{ $incomingGoods->nextPageUrl() }}" class="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition">Selanjutnya →</a>
                     @else
                         <button disabled class="rounded-lg border border-gray-300 bg-gray-100 px-3 py-2 text-sm font-medium text-gray-500 cursor-not-allowed">Selanjutnya →</button>
                     @endif

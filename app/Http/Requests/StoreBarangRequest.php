@@ -24,10 +24,8 @@ class StoreBarangRequest extends FormRequest
         return [
             'kode_barang' => 'required|string|unique:barang,kode_barang|max:50',
             'nama_barang' => 'required|string|max:255',
-            'kategori' => 'required|string|max:100',
+            'kategori' => 'required|string|max:100|in:' . implode(',', ['Refrigeration','Kitchen Equipment','Packing','Bakery Equipment']),
             'satuan' => 'required|string|max:50',
-            'stok' => 'required|integer|min:0',
-            'lokasi_rak' => 'required|string|max:100',
             'deskripsi' => 'nullable|string|max:1000',
         ];
     }
@@ -46,10 +44,6 @@ class StoreBarangRequest extends FormRequest
             'nama_barang.max' => 'Nama barang maksimal 255 karakter.',
             'kategori.required' => 'Kategori harus dipilih.',
             'satuan.required' => 'Satuan harus dipilih.',
-            'stok.required' => 'Stok harus diisi.',
-            'stok.integer' => 'Stok harus berupa angka.',
-            'stok.min' => 'Stok tidak boleh kurang dari 0.',
-            'lokasi_rak.required' => 'Lokasi rak harus diisi.',
             'deskripsi.max' => 'Deskripsi maksimal 1000 karakter.',
         ];
     }

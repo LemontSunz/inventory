@@ -5,6 +5,9 @@ use App\Http\Controllers\Warehouse\BarangController;
 use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\CabangController;
 use App\Http\Controllers\BarangKeluarController;
+use App\Http\Controllers\DriverController;
+use App\Http\Controllers\KendaraanController;
+use App\Http\Controllers\LokasiRakController;
 
 Route::view('/', 'pages.dashboard.index')->name('dashboard');
 
@@ -12,6 +15,9 @@ Route::resource('barang', BarangController::class);
 Route::resource('barang-masuk', BarangMasukController::class);
 Route::resource('cabang', CabangController::class);
 Route::resource('barang-keluar', BarangKeluarController::class);
+Route::resource('armada/drivers', DriverController::class)->names('armada.drivers');
+Route::resource('kendaraan', KendaraanController::class);
+Route::resource('lokasi-rak', LokasiRakController::class);
 
 Route::prefix('warehouse/items')->group(function () {
     Route::view('/', 'pages.warehouse.items.index')->name('warehouse.items.index');
@@ -27,7 +33,7 @@ Route::prefix('warehouse/outbound')->group(function () {
 
 
 Route::prefix('warehouse/stock')->group(function () {
-    Route::view('/', 'pages.warehouse.stock.index')->name('warehouse.stock.index');
+    Route::get('/', [\App\Http\Controllers\Warehouse\LaporanStokController::class, 'index'])->name('warehouse.stock.index');
 });
 
 Route::prefix('warehouse/stock-management')->group(function () {

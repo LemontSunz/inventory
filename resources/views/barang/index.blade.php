@@ -106,8 +106,6 @@
                             <th class="px-6 py-4 text-left font-semibold text-gray-900">Nama Barang</th>
                             <th class="px-6 py-4 text-left font-semibold text-gray-900">Kategori</th>
                             <th class="px-6 py-4 text-left font-semibold text-gray-900">Satuan</th>
-                            <th class="px-6 py-4 text-left font-semibold text-gray-900">Stok</th>
-                            <th class="px-6 py-4 text-left font-semibold text-gray-900">Lokasi Rak</th>
                             <th class="px-6 py-4 text-left font-semibold text-gray-900">Aksi</th>
                         </tr>
                     </thead>
@@ -128,16 +126,6 @@
                                 </td>
                                 <td class="px-6 py-4 text-gray-600">{{ $item->kategori }}</td>
                                 <td class="px-6 py-4 text-gray-600">{{ $item->satuan }}</td>
-                                <td class="px-6 py-4">
-                                    @if($item->stok > 20)
-                                        <span class="inline-flex rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">{{ $item->stok }} unit</span>
-                                    @elseif($item->stok > 5)
-                                        <span class="inline-flex rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-700">{{ $item->stok }} unit</span>
-                                    @else
-                                        <span class="inline-flex rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-700">{{ $item->stok }} unit</span>
-                                    @endif
-                                </td>
-                                <td class="px-6 py-4 text-gray-600">{{ $item->lokasi_rak }}</td>
                                 <td class="px-6 py-4">
                                     <div class="flex gap-2">
                                         <a href="{{ route('barang.edit', $item->id) }}" class="inline-flex items-center gap-1 rounded-md bg-blue-50 px-3 py-1.5 text-xs font-medium text-blue-700 hover:bg-blue-100 transition">

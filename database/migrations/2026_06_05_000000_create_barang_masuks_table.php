@@ -17,6 +17,7 @@ return new class extends Migration
             $table->date('tanggal_masuk');
             $table->integer('qty_masuk');
             $table->string('supplier');
+            $table->string('lokasi_rak')->nullable();
             $table->text('keterangan')->nullable();
             $table->timestamps();
         });

@@ -77,7 +77,7 @@ class LaporanStokController extends Controller
             ->withQueryString();
 
         // Hitung status di view (berdasarkan stok saat ini)
-        return view('pages.warehouse.reports.stock', [
+        return view('pages.warehouse.laporan-stok.index', [
             'laporans' => $laporans,
             'totalBarang' => $totalBarang,
             'totalStok' => $totalStok,

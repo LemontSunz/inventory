@@ -11,7 +11,7 @@
     <body class="min-h-screen bg-slate-50 text-slate-900 antialiased">
         <div class="min-h-screen">
             @include('components.nav')
-            <div class="flex min-h-[calc(100vh-4rem)] overflow-hidden bg-slate-50">
+            <div class="flex min-h-[calc(100vh-4rem)] overflow-visible bg-slate-50">
                 @include('components.sidebar')
 
                 <main class="flex-1 px-4 py-6 sm:px-6 lg:px-8">
