@@ -10,8 +10,8 @@
             <p class="mt-2 text-slate-600">Lihat informasi lengkap kendaraan armada.</p>
         </div>
         <div class="flex flex-wrap gap-3">
-            <a href="{{ route('kendaraan.edit', $kendaraan) }}" class="inline-flex items-center gap-2 rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white hover:bg-slate-800 transition">Edit</a>
-            <a href="{{ route('kendaraan.index') }}" class="inline-flex items-center gap-2 rounded-2xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition">Kembali</a>
+            <a href="{{ route('kendaraan.edit', $kendaraan) }}" class="group inline-flex items-center gap-2 rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white hover:bg-slate-800 transition cursor-pointer">Edit</a>
+            <a href="{{ route('kendaraan.index') }}" class="group inline-flex items-center gap-2 rounded-2xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition cursor-pointer">Kembali</a>
         </div>
     </div>
 
@@ -55,7 +55,7 @@
                     <dt class="font-semibold text-slate-600">Status</dt>
                     @php $style = App\Models\Kendaraan::statusStyles()[$kendaraan->status] ?? ['bg' => 'bg-slate-100', 'text' => 'text-slate-700']; @endphp
                     <dd class="mt-1">
-                        <span class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold {{ $style['bg'] }} {{ $style['text'] }}">
+                        <span class="group inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold {{ $style['bg'] }} {{ $style['text'] }}">
                             <span class="h-2.5 w-2.5 rounded-full {{ $style['dot'] }}"></span>
                             {{ $kendaraan->status }}
                         </span>

@@ -31,11 +31,29 @@ class KendaraanController extends Controller
         $totalBertugas = (clone $query)->where('status', Kendaraan::STATUS_BERTUGAS)->count();
         $totalPerawatan = (clone $query)->where('status', Kendaraan::STATUS_PERAWATAN)->count();
 
-        $kendaraan = $query->orderBy('created_at', 'desc')
-            ->paginate(10)
-            ->withQueryString();
+        // Sortable columns
+        $sortable = ['kode_kendaraan', 'nama_kendaraan', 'jenis_kendaraan', 'plat_nomor', 'status'];
+        $sort = $request->get('sort', 'created_at');
+        $direction = $request->get('direction', 'desc');
 
-        return view('kendaraan.index', compact('kendaraan', 'totalKendaraan', 'totalSiap', 'totalBertugas', 'totalPerawatan'));
+        // Validate sort column and direction
+        if (!in_array($sort, $sortable) && $sort !== 'created_at') {
+            $sort = 'created_at';
+        }
+        if (!in_array($direction, ['asc', 'desc'])) {
+            $direction = 'desc';
+        }
+
+        // Apply sorting
+        if ($sort === 'created_at') {
+            $query->orderBy('created_at', $direction);
+        } else {
+            $query->orderBy($sort, $direction);
+        }
+
+        $kendaraan = $query->paginate(10)->withQueryString();
+
+        return view('kendaraan.index', compact('kendaraan', 'totalKendaraan', 'totalSiap', 'totalBertugas', 'totalPerawatan', 'sort', 'direction'));
     }
 
     public function create()

@@ -9,3 +9,94 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+@layer components {
+    .table-standard-wrapper {
+        @apply w-full overflow-x-auto overflow-y-visible;
+    }
+
+    .table-standard {
+        @apply border-collapse;
+        min-width: 1500px;
+    }
+
+    .table-standard thead th {
+        @apply px-3 py-3 align-middle text-slate-600 text-sm h-12 whitespace-nowrap font-semibold;
+    }
+
+    .table-standard tbody tr {
+        @apply align-middle;
+    }
+
+    .table-standard tbody td {
+        @apply px-3 py-3 align-middle text-sm leading-6 text-slate-700 whitespace-normal;
+        min-height: 72px;
+    }
+
+    .table-data-barang thead th {
+        @apply px-4 py-3 align-middle text-left text-sm font-semibold text-slate-600 whitespace-nowrap;
+    }
+
+    .table-data-barang tbody td {
+        @apply px-4 py-3 align-middle text-sm leading-normal text-slate-700 whitespace-normal min-h-[72px];
+    }
+
+    .table-data-barang .table-badge {
+        @apply inline-flex h-6 items-center rounded-full bg-blue-100 px-2.5 text-xs font-medium leading-none text-blue-700;
+    }
+
+    .badge-consistent {
+        @apply inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold whitespace-nowrap;
+        min-height: 28px;
+    }
+}
+
+.outbound-table-shell {
+    max-height: min(72vh, 560px);
+    overflow-x: auto;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(148, 163, 184, 0.52) transparent;
+}
+
+.outbound-table-shell::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+}
+
+.outbound-table-shell::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.52);
+    border-radius: 9999px;
+}
+
+.outbound-table-shell::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.outbound-table-shell thead th {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: #f8fafc;
+}
+
+.outbound-col-no { width: 72px; min-width: 72px; }
+.outbound-col-no-pengiriman { width: 140px; min-width: 140px; }
+.outbound-col-tanggal { width: 120px; min-width: 120px; }
+.outbound-col-cabang { width: 180px; min-width: 180px; }
+.outbound-col-barang { width: 320px; min-width: 320px; }
+.outbound-col-jumlah { width: 100px; min-width: 100px; }
+.outbound-col-pengemudi { width: 150px; min-width: 150px; }
+.outbound-col-kendaraan { width: 140px; min-width: 140px; }
+.outbound-col-status { width: 110px; min-width: 110px; }
+.outbound-col-keterangan { width: 220px; min-width: 220px; }
+.outbound-col-aksi { width: 280px; min-width: 280px; white-space: nowrap; }
+
+/* Fixed column widths for consistent layout */
+.table-col-no { width: 70px; min-width: 70px; text-align: center; }
+.table-col-code { width: 150px; min-width: 150px; }
+.table-col-date { width: 150px; min-width: 150px; text-align: center; }
+.table-col-qty { width: 120px; min-width: 120px; text-align: center; }
+.table-col-status { width: 140px; min-width: 140px; text-align: center; }
+.table-col-actions { width: 180px; min-width: 180px; text-align: center; }
+

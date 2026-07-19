@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Driver;
 
 class Kendaraan extends Model
 {
@@ -56,6 +57,11 @@ class Kendaraan extends Model
             self::JENIS_MOTOR,
             self::JENIS_LAINNYA,
         ];
+    }
+
+    public function drivers()
+    {
+        return $this->hasMany(Driver::class, 'kendaraan_id');
     }
 
     public static function statusStyles(): array

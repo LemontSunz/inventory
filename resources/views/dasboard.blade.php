@@ -107,10 +107,10 @@
                     </div>
                 </div>
                 <div class="mt-6 grid gap-4 sm:grid-cols-2">
-                    <button class="rounded-3xl border border-slate-200 bg-slate-50 px-5 py-4 text-left text-sm font-semibold text-slate-900 transition hover:border-slate-300 hover:bg-slate-100">Tambah Produk Baru</button>
-                    <button class="rounded-3xl border border-slate-200 bg-slate-50 px-5 py-4 text-left text-sm font-semibold text-slate-900 transition hover:border-slate-300 hover:bg-slate-100">Buat Purchase Order</button>
-                    <button class="rounded-3xl border border-slate-200 bg-slate-50 px-5 py-4 text-left text-sm font-semibold text-slate-900 transition hover:border-slate-300 hover:bg-slate-100">Atur Supplier</button>
-                    <button class="rounded-3xl border border-slate-200 bg-slate-50 px-5 py-4 text-left text-sm font-semibold text-slate-900 transition hover:border-slate-300 hover:bg-slate-100">Lihat Laporan</button>
+                    <button class="rounded-3xl border border-slate-200 bg-slate-50 px-5 py-4 text-left text-sm font-semibold text-slate-900 transition hover:border-slate-300 hover:bg-slate-100 cursor-pointer">Tambah Produk Baru</button>
+                    <button class="rounded-3xl border border-slate-200 bg-slate-50 px-5 py-4 text-left text-sm font-semibold text-slate-900 transition hover:border-slate-300 hover:bg-slate-100 cursor-pointer">Buat Purchase Order</button>
+                    <button class="rounded-3xl border border-slate-200 bg-slate-50 px-5 py-4 text-left text-sm font-semibold text-slate-900 transition hover:border-slate-300 hover:bg-slate-100 cursor-pointer">Atur Supplier</button>
+                    <button class="rounded-3xl border border-slate-200 bg-slate-50 px-5 py-4 text-left text-sm font-semibold text-slate-900 transition hover:border-slate-300 hover:bg-slate-100 cursor-pointer">Lihat Laporan</button>
                 </div>
             </div>
             <div class="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm">
@@ -149,10 +149,10 @@
                 <p class="mt-1 text-sm text-slate-500">Filter dengan kata kunci untuk menampilkan item yang relevan.</p>
             </div>
             <div class="flex flex-wrap items-center gap-2">
-                <button class="rounded-2xl border border-slate-200 bg-slate-100 px-4 py-2 text-sm text-slate-700 transition hover:bg-slate-50">Semua</button>
-                <button class="rounded-2xl border border-slate-200 bg-slate-100 px-4 py-2 text-sm text-slate-700 transition hover:bg-slate-50">Stok Rendah</button>
-                <button class="rounded-2xl border border-slate-200 bg-slate-100 px-4 py-2 text-sm text-slate-700 transition hover:bg-slate-50">Supplier Baru</button>
-                <button class="rounded-2xl border border-slate-200 bg-slate-100 px-4 py-2 text-sm text-slate-700 transition hover:bg-slate-50">Project</button>
+                <button class="rounded-2xl border border-slate-200 bg-slate-100 px-4 py-2 text-sm text-slate-700 transition hover:bg-slate-50 cursor-pointer">Semua</button>
+                <button class="rounded-2xl border border-slate-200 bg-slate-100 px-4 py-2 text-sm text-slate-700 transition hover:bg-slate-50 cursor-pointer">Stok Rendah</button>
+                <button class="rounded-2xl border border-slate-200 bg-slate-100 px-4 py-2 text-sm text-slate-700 transition hover:bg-slate-50 cursor-pointer">Supplier Baru</button>
+                <button class="rounded-2xl border border-slate-200 bg-slate-100 px-4 py-2 text-sm text-slate-700 transition hover:bg-slate-50 cursor-pointer">Project</button>
             </div>
         </div>
 

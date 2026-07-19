@@ -9,19 +9,19 @@
             <h2 class="text-3xl font-bold text-slate-950">Edit Lokasi Rak</h2>
             <p class="mt-2 text-sm text-slate-600">Perbarui detail lokasi rak untuk menjaga akurasi gudang.</p>
         </div>
-        <a href="{{ route('lokasi-rak.index') }}" class="inline-flex items-center gap-2 rounded-3xl bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800">Kembali</a>
+        <a href="{{ route('lokasi-rak.index') }}" class="group inline-flex items-center gap-2 rounded-3xl bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 cursor-pointer">Kembali</a>
     </div>
 
     <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
-        <form action="{{ route('lokasi-rak.update', $rakLocation->id) }}" method="POST" class="space-y-6">
+        <form action="{{ route('lokasi-rak.update', $rakLocation) }}" method="POST" class="space-y-6">
             @csrf
             @method('PUT')
 
             @include('rak-lokasi._form')
 
             <div class="flex flex-wrap gap-3">
-                <button type="submit" class="inline-flex items-center justify-center rounded-3xl bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800">Simpan Perubahan</button>
-                <a href="{{ route('lokasi-rak.index') }}" class="inline-flex items-center justify-center rounded-3xl border border-slate-200 px-6 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">Batal</a>
+                <button type="submit" class="group inline-flex items-center justify-center rounded-3xl bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 cursor-pointer">Simpan Perubahan</button>
+                <a href="{{ route('lokasi-rak.index') }}" class="group inline-flex items-center justify-center rounded-3xl border border-slate-200 px-6 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 cursor-pointer">Batal</a>
             </div>
         </form>
     </div>

@@ -9,7 +9,7 @@
             <h1 class="text-3xl font-bold text-slate-900">Ubah Driver Armada</h1>
             <p class="mt-2 text-slate-600">Perbarui data driver dan detail armada untuk rute operasional.</p>
         </div>
-        <a href="{{ route('armada.drivers.index') }}" class="inline-flex items-center gap-2 rounded-2xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">Kembali ke Daftar</a>
+        <a href="{{ route('armada.drivers.index') }}" class="group inline-flex items-center gap-2 rounded-2xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 cursor-pointer">Kembali ke Daftar</a>
     </div>
 
     @if($errors->any())
@@ -24,8 +24,8 @@
         @include('armada.drivers._form')
 
         <div class="flex flex-col gap-3 sm:flex-row sm:justify-end">
-            <a href="{{ route('armada.drivers.index') }}" class="inline-flex items-center justify-center rounded-2xl border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">Batal</a>
-            <button type="submit" class="inline-flex items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800">Perbarui Driver</button>
+            <a href="{{ route('armada.drivers.index') }}" class="group inline-flex items-center justify-center rounded-2xl border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 cursor-pointer">Batal</a>
+            <button type="submit" class="group inline-flex items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 cursor-pointer">Perbarui Driver</button>
         </div>
     </form>
 </div>

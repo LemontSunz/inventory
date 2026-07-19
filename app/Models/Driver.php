@@ -15,10 +15,10 @@ class Driver extends Model
         'driver_code',
         'name',
         'phone',
-        'vehicle_type',
+        
         'license_class',
         'license_expiry_date',
-        'assigned_route',
+        
         'status',
         'notes',
     ];
@@ -43,6 +43,16 @@ class Driver extends Model
             self::STATUS_ON_ROUTE,
             self::STATUS_INACTIVE,
         ];
+    }
+
+    public function kendaraan()
+    {
+        return $this->belongsTo(Kendaraan::class, 'kendaraan_id');
+    }
+
+    public function cabang()
+    {
+        return $this->belongsTo(Cabang::class, 'cabang_id');
     }
 
     public static function licenseClasses(): array

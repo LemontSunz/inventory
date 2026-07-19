@@ -17,17 +17,7 @@
                 class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 focus:border-sky-500 focus:outline-none focus:ring-4 focus:ring-sky-100" />
         </div>
 
-        <div>
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Unit / Kendaraan</label>
-            <input type="text" name="vehicle_type" value="{{ old('vehicle_type', $driver->vehicle_type ?? '') }}" required
-                class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 focus:border-sky-500 focus:outline-none focus:ring-4 focus:ring-sky-100" />
-        </div>
-
-        <div>
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Rute Ditugaskan</label>
-            <input type="text" name="assigned_route" value="{{ old('assigned_route', $driver->assigned_route ?? '') }}"
-                class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 focus:border-sky-500 focus:outline-none focus:ring-4 focus:ring-sky-100" />
-        </div>
+        <!-- Unit/Kendaraan and Rute Ditugaskan removed from driver form per feature change -->
     </div>
 
     <div class="space-y-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">

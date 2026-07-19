@@ -24,8 +24,8 @@ class StoreBarangRequest extends FormRequest
         return [
             'kode_barang' => 'required|string|unique:barang,kode_barang|max:50',
             'nama_barang' => 'required|string|max:255',
-            'kategori' => 'required|string|max:100|in:' . implode(',', ['Refrigeration','Kitchen Equipment','Packing','Bakery Equipment']),
-            'satuan' => 'required|string|max:50',
+            'kategori' => 'required|string|max:100|in:' . implode(',', ['Refrigeration','Kitchen Equipment','Packaging','Bakery Equipment']),
+            'satuan' => 'required|string|in:Unit|max:50',
             'deskripsi' => 'nullable|string|max:1000',
         ];
     }

@@ -30,13 +30,33 @@ class BarangController extends Controller
             $query->where('kategori', $request->get('kategori'));
         }
 
+        // Sortable columns
+        $sortable = ['kode_barang', 'nama_barang', 'kategori', 'stok', 'harga', 'status_stok'];
+        $sort = $request->get('sort', 'created_at');
+        $direction = $request->get('direction', 'desc');
+
+        // Validate sort column and direction
+        if (!in_array($sort, $sortable) && $sort !== 'created_at') {
+            $sort = 'created_at';
+        }
+        if (!in_array($direction, ['asc', 'desc'])) {
+            $direction = 'desc';
+        }
+
+        // Apply sorting
+        if ($sort === 'created_at') {
+            $query->orderBy('created_at', $direction);
+        } else {
+            $query->orderBy($sort, $direction);
+        }
+
         // Pagination
-        $barang = $query->latest()->paginate(10)->withQueryString();
+        $barang = $query->paginate(10)->withQueryString();
 
         // Get unique categories for filter
         $kategoris = Barang::distinct()->pluck('kategori')->sort();
 
-        return view('barang.index', compact('barang', 'kategoris'));
+        return view('barang.index', compact('barang', 'kategoris', 'sort', 'direction'));
     }
 
     /**

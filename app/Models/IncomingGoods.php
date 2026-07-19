@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use App\Models\Supplier;
 use App\Models\IncomingGoodsDetail;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 
 class IncomingGoods extends Model
 {
@@ -15,7 +14,9 @@ class IncomingGoods extends Model
         'receiving_code',
         'container_number',
         'receiving_date',
+        'supplier',
         'supplier_id',
+        'supplier_name',
         'delivery_order_number',
         'description',
         'created_by',
@@ -27,11 +28,6 @@ class IncomingGoods extends Model
         'updated_at' => 'datetime',
     ];
 
-    public function supplier()
-    {
-        return $this->belongsTo(Supplier::class);
-    }
-
     public function details()
     {
         return $this->hasMany(IncomingGoodsDetail::class);
@@ -41,4 +37,23 @@ class IncomingGoods extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
+
+    public static function generateReceivingCode(): string
+    {
+        $lastRecord = self::select('receiving_code')
+            ->orderBy('id', 'desc')
+            ->lockForUpdate()
+            ->first();
+
+        $lastNumber = 0;
+
+        if ($lastRecord && preg_match('/(\d+)$/', $lastRecord->receiving_code, $matches)) {
+            $lastNumber = (int) $matches[1];
+        }
+
+        $nextNumber = $lastNumber + 1;
+
+        return 'TRM-' . str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
+    }
 }
+

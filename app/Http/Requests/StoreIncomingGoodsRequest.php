@@ -6,22 +6,22 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreIncomingGoodsRequest extends FormRequest
 {
-    public function authorize()
+    public function authorize(): bool
     {
-        return $this->user() !== null;
+        return true;
     }
 
     public function rules()
     {
         return [
-            'receiving_code' => ['required', 'string', 'max:50', 'unique:incoming_goods,receiving_code'],
             'container_number' => ['nullable', 'string', 'max:50'],
             'receiving_date' => ['required', 'date'],
-            'supplier_id' => ['required', 'exists:suppliers,id'],
+            'supplier' => ['required', 'string', 'max:255'],
+
             'delivery_order_number' => ['nullable', 'string', 'max:100'],
             'description' => ['nullable', 'string', 'max:1000'],
             'items' => ['required', 'array', 'min:1'],
-            'items.*.item_id' => ['required', 'exists:barangs,id'],
+            'items.*.item_id' => ['required', 'exists:barang,id'],
             'items.*.quantity_received' => ['required', 'integer', 'min:1'],
             'items.*.rack_location_id' => ['required', 'exists:rack_locations,id'],
         ];
@@ -42,3 +42,4 @@ class StoreIncomingGoodsRequest extends FormRequest
         ];
     }
 }
+

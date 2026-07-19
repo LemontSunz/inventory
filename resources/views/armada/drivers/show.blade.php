@@ -10,8 +10,8 @@
             <p class="mt-2 text-slate-600">Ringkasan lengkap armada dan status layanan.</p>
         </div>
         <div class="flex flex-wrap gap-3">
-            <a href="{{ route('armada.drivers.edit', $driver) }}" class="inline-flex items-center gap-2 rounded-2xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-700 transition">Edit</a>
-            <a href="{{ route('armada.drivers.index') }}" class="inline-flex items-center gap-2 rounded-2xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition">Kembali</a>
+            <a href="{{ route('armada.drivers.edit', $driver) }}" class="group inline-flex items-center gap-2 rounded-2xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-700 transition cursor-pointer">Edit</a>
+            <a href="{{ route('armada.drivers.index') }}" class="group inline-flex items-center gap-2 rounded-2xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition cursor-pointer">Kembali</a>
         </div>
     </div>
 
@@ -31,14 +31,7 @@
                     <dt class="font-semibold text-slate-600">Telepon</dt>
                     <dd>{{ $driver->phone }}</dd>
                 </div>
-                <div class="grid gap-2 sm:grid-cols-2">
-                    <dt class="font-semibold text-slate-600">Kendaraan</dt>
-                    <dd>{{ $driver->vehicle_type }}</dd>
-                </div>
-                <div class="grid gap-2 sm:grid-cols-2">
-                    <dt class="font-semibold text-slate-600">Rute Ditugaskan</dt>
-                    <dd>{{ $driver->assigned_route ?? '-' }}</dd>
-                </div>
+                <!-- Kendaraan and Rute Ditugaskan removed from driver detail view -->
                 <div class="grid gap-2 sm:grid-cols-2">
                     <dt class="font-semibold text-slate-600">Kelas SIM</dt>
                     <dd>{{ $driver->license_class }}</dd>

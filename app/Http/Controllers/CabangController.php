@@ -20,9 +20,29 @@ class CabangController extends Controller
                 ->orWhere('kota', 'like', "%{$search}%");
         }
 
-        $cabangs = $query->latest()->paginate(10)->withQueryString();
+        // Sortable columns
+        $sortable = ['kode_cabang', 'nama_cabang', 'kota', 'alamat'];
+        $sort = $request->get('sort', 'created_at');
+        $direction = $request->get('direction', 'desc');
 
-        return view('cabang.index', compact('cabangs'));
+        // Validate sort column and direction
+        if (!in_array($sort, $sortable) && $sort !== 'created_at') {
+            $sort = 'created_at';
+        }
+        if (!in_array($direction, ['asc', 'desc'])) {
+            $direction = 'desc';
+        }
+
+        // Apply sorting
+        if ($sort === 'created_at') {
+            $query->orderBy('created_at', $direction);
+        } else {
+            $query->orderBy($sort, $direction);
+        }
+
+        $cabangs = $query->paginate(10)->withQueryString();
+
+        return view('cabang.index', compact('cabangs', 'sort', 'direction'));
     }
 
     public function create()

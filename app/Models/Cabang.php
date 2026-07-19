@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Driver;
 
 class Cabang extends Model
 {
@@ -14,5 +15,10 @@ class Cabang extends Model
         'kota',
         'alamat',
     ];
+
+    public function drivers()
+    {
+        return $this->hasMany(Driver::class, 'cabang_id');
+    }
 }
 

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cabang;
 use App\Models\Driver;
+use App\Models\Kendaraan;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -17,9 +19,7 @@ class DriverController extends Controller
             $query->where(function ($sub) use ($search) {
                 $sub->where('driver_code', 'like', "%{$search}%")
                     ->orWhere('name', 'like', "%{$search}%")
-                    ->orWhere('phone', 'like', "%{$search}%")
-                    ->orWhere('vehicle_type', 'like', "%{$search}%")
-                    ->orWhere('assigned_route', 'like', "%{$search}%");
+                    ->orWhere('phone', 'like', "%{$search}%");
             });
         }
 
@@ -27,11 +27,29 @@ class DriverController extends Controller
             $query->where('status', $status);
         }
 
-        $drivers = $query->orderBy('created_at', 'desc')
-            ->paginate(10)
-            ->withQueryString();
+        // Sortable columns
+        $sortable = ['driver_code', 'name', 'status'];
+        $sort = $request->get('sort', 'created_at');
+        $direction = $request->get('direction', 'desc');
 
-        return view('armada.drivers.index', compact('drivers'));
+        // Validate sort column and direction
+        if (!in_array($sort, $sortable) && $sort !== 'created_at') {
+            $sort = 'created_at';
+        }
+        if (!in_array($direction, ['asc', 'desc'])) {
+            $direction = 'desc';
+        }
+
+        // Apply sorting
+        if ($sort === 'created_at') {
+            $query->orderBy('created_at', $direction);
+        } else {
+            $query->orderBy($sort, $direction);
+        }
+
+        $drivers = $query->paginate(10)->withQueryString();
+
+        return view('armada.drivers.index', compact('drivers', 'sort', 'direction'));
     }
 
     public function create()
@@ -44,10 +62,8 @@ class DriverController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:50',
-            'vehicle_type' => 'required|string|max:100',
             'license_class' => ['required', Rule::in(Driver::licenseClasses())],
             'license_expiry_date' => 'required|date',
-            'assigned_route' => 'nullable|string|max:255',
             'status' => ['required', Rule::in(Driver::statuses())],
             'notes' => 'nullable|string|max:1000',
         ]);
@@ -56,10 +72,8 @@ class DriverController extends Controller
             'driver_code' => Driver::generateCode(),
             'name' => $data['name'],
             'phone' => $data['phone'],
-            'vehicle_type' => $data['vehicle_type'],
             'license_class' => $data['license_class'],
             'license_expiry_date' => $data['license_expiry_date'],
-            'assigned_route' => $data['assigned_route'] ?? null,
             'status' => $data['status'],
             'notes' => $data['notes'] ?? null,
         ]);
@@ -83,10 +97,8 @@ class DriverController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:50',
-            'vehicle_type' => 'required|string|max:100',
             'license_class' => ['required', Rule::in(Driver::licenseClasses())],
             'license_expiry_date' => 'required|date',
-            'assigned_route' => 'nullable|string|max:255',
             'status' => ['required', Rule::in(Driver::statuses())],
             'notes' => 'nullable|string|max:1000',
         ]);
@@ -94,10 +106,8 @@ class DriverController extends Controller
         $driver->update([
             'name' => $data['name'],
             'phone' => $data['phone'],
-            'vehicle_type' => $data['vehicle_type'],
             'license_class' => $data['license_class'],
             'license_expiry_date' => $data['license_expiry_date'],
-            'assigned_route' => $data['assigned_route'] ?? null,
             'status' => $data['status'],
             'notes' => $data['notes'] ?? null,
         ]);

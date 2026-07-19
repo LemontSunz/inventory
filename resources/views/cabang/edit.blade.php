@@ -6,7 +6,7 @@
 <div class="mx-auto max-w-2xl">
     <!-- Breadcrumb -->
     <div class="mb-6 flex items-center gap-2 text-sm text-gray-600">
-        <a href="{{ route('cabang.index') }}" class="hover:text-gray-900">Data Cabang</a>
+        <a href="{{ route('cabang.index') }}" class="hover:text-gray-900 cursor-pointer">Data Cabang</a>
         <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
         </svg>
@@ -92,13 +92,13 @@
 
             <!-- Buttons -->
             <div class="flex gap-3 pt-6 border-t border-gray-200">
-                <button type="submit" class="flex-1 inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 transition">
+                <button type="submit" class="group flex-1 inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 transition cursor-pointer">
                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                     </svg>
                     Perbarui Cabang
                 </button>
-                <a href="{{ route('cabang.index') }}" class="flex-1 inline-flex items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-6 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition">
+                <a href="{{ route('cabang.index') }}" class="group flex-1 inline-flex items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-6 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition cursor-pointer">
                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>

@@ -9,7 +9,7 @@
             <h1 class="text-3xl font-bold text-slate-900">Tambah Kendaraan Baru</h1>
             <p class="mt-2 text-slate-600">Masukkan informasi teknis kendaraan agar armada lebih teratur.</p>
         </div>
-        <a href="{{ route('kendaraan.index') }}" class="inline-flex items-center gap-2 rounded-2xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition">Kembali ke Daftar</a>
+        <a href="{{ route('kendaraan.index') }}" class="group inline-flex items-center gap-2 rounded-2xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition cursor-pointer">Kembali ke Daftar</a>
     </div>
 
     @if($errors->any())
@@ -22,8 +22,8 @@
         @csrf
         @include('kendaraan._form')
         <div class="flex flex-col gap-3 sm:flex-row sm:justify-end">
-            <a href="{{ route('kendaraan.index') }}" class="inline-flex items-center justify-center rounded-2xl border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition">Batal</a>
-            <button type="submit" class="inline-flex items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white hover:bg-slate-800 transition">Simpan Kendaraan</button>
+            <a href="{{ route('kendaraan.index') }}" class="group inline-flex items-center justify-center rounded-2xl border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition cursor-pointer">Batal</a>
+            <button type="submit" class="group inline-flex items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white hover:bg-slate-800 transition cursor-pointer">Simpan Kendaraan</button>
         </div>
     </form>
 </div>
