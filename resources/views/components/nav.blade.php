@@ -1,5 +1,5 @@
-<header class="w-full border-b border-slate-200 bg-white">
-    <div class="flex h-24 items-center justify-between px-6 lg:px-8">
+<header class="fixed inset-x-0 top-0 z-50 border-b border-slate-200 bg-white/95 shadow-sm backdrop-blur">
+    <div class="flex h-20 items-center justify-between px-4 sm:px-6 lg:px-8 xl:px-10">
         
         <!-- Kiri: Logo -->
         <a href="#" class="flex flex-col items-center gap-2 cursor-pointer">
@@ -27,7 +27,7 @@
                     <input 
                         type="search"
                         placeholder="Cari data..."
-                        class="h-10 w-80 rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-4 text-sm outline-none transition focus:border-sky-500 focus:bg-white focus:ring-2 focus:ring-sky-100">
+                        class="h-10 w-72 rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-4 text-sm outline-none transition focus:border-sky-500 focus:bg-white focus:ring-2 focus:ring-sky-100 lg:w-80">
                 </div>
             @endif
 

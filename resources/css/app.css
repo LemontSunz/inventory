@@ -16,8 +16,7 @@
     }
 
     .table-standard {
-        @apply border-collapse;
-        min-width: 1500px;
+        @apply border-collapse w-full;
     }
 
     .table-standard thead th {

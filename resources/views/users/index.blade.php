@@ -3,16 +3,21 @@
 @section('title', 'Kelola Pengguna - Inventory SaaS')
 
 @section('content')
-<div class="space-y-6">
-    <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div>
-            <h2 class="text-3xl font-bold text-gray-900">Kelola Pengguna</h2>
-            <p class="mt-2 text-gray-600">Buat, edit, dan hapus akun manager atau admin gudang.</p>
-        </div>
-        <a href="{{ route('users.create') }}" class="group inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 transition cursor-pointer">
-            Tambah Pengguna
-        </a>
-    </div>
+<div class="space-y-4 max-w-screen-2xl w-full mx-auto px-6 sm:px-8 lg:px-10 xl:px-12">
+    <x-page-header
+        category="Pengguna"
+        title="Kelola Pengguna"
+        description="Buat, edit, dan hapus akun manager atau admin gudang."
+    >
+        <x-slot:actionButton>
+            <a href="{{ route('users.create') }}" class="group inline-flex items-center justify-center rounded-xl bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800 cursor-pointer">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+                Tambah Pengguna
+            </a>
+        </x-slot:actionButton>
+    </x-page-header>
 
     @if (session('success'))
         <div class="rounded-lg border border-green-300 bg-green-50 p-4 text-green-700">
@@ -25,106 +30,26 @@
         </div>
     @endif
 
-    <div class="overflow-hidden rounded-xl bg-white shadow-sm border border-gray-200">
-        <div class="mt-6 table-standard-wrapper rounded-xl">
-            <table class="table-standard text-sm text-left divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="px-6 py-4 font-semibold text-gray-900 whitespace-nowrap">
-                            @php
-                                $isSorted = $sort === 'name';
-                                $nextDirection = $isSorted && $direction === 'asc' ? 'desc' : 'asc';
-                                $params = array_merge(request()->query(), ['sort' => 'name', 'direction' => $nextDirection]);
-                            @endphp
-                            <a href="{{ route('users.index', $params) }}" class="group inline-flex items-center gap-2 cursor-pointer hover:text-gray-600 transition">
-                                Nama
-                                <span class="inline-flex items-center">
-                                        @if($isSorted)
-                                            @if($direction === 'asc')
-                                                <svg class="h-4 w-4 text-gray-900 transition-opacity duration-150 ease-in-out" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 15.21a.75.75 0 001.06.02L12 10.56l5.71 4.67a.75.75 0 001.06-1.06l-6.24-5.11a.75.75 0 00-1.06 0L5.23 14.15a.75.75 0 00.02 1.06z" clip-rule="evenodd"/></svg>
-                                            @else
-                                                <svg class="h-4 w-4 text-gray-900 transition-opacity duration-150 ease-in-out" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.77 8.79a.75.75 0 00-1.06-.02L12 14.94 6.29 8.23a.75.75 0 00-1.06 1.06l6.24 6.25a.75.75 0 001.06 0l6.24-6.25a.75.75 0 00-.02-1.06z" clip-rule="evenodd"/></svg>
-                                            @endif
-                                        @else
-                                            <svg class="h-4 w-4 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-150 ease-in-out" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.77 8.79a.75.75 0 00-1.06-.02L12 14.94 6.29 8.23a.75.75 0 00-1.06 1.06l6.24 6.25a.75.75 0 001.06 0l6.24-6.25a.75.75 0 00-.02-1.06z" clip-rule="evenodd"/></svg>
-                                        @endif
-                                    </span>
-                            </a>
-                        </th>
-                        <th class="px-6 py-4 font-semibold text-gray-900">
-                            @php
-                                $isSorted = $sort === 'email';
-                                $nextDirection = $isSorted && $direction === 'asc' ? 'desc' : 'asc';
-                                $params = array_merge(request()->query(), ['sort' => 'email', 'direction' => $nextDirection]);
-                            @endphp
-                            <a href="{{ route('users.index', $params) }}" class="group inline-flex items-center gap-2 cursor-pointer hover:text-gray-600 transition">
-                                Email
-                                <span class="inline-flex items-center">
-                                        @if($isSorted)
-                                            @if($direction === 'asc')
-                                                <svg class="h-4 w-4 text-gray-900 transition-opacity duration-150 ease-in-out" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 15.21a.75.75 0 001.06.02L12 10.56l5.71 4.67a.75.75 0 001.06-1.06l-6.24-5.11a.75.75 0 00-1.06 0L5.23 14.15a.75.75 0 00.02 1.06z" clip-rule="evenodd"/></svg>
-                                            @else
-                                                <svg class="h-4 w-4 text-gray-900 transition-opacity duration-150 ease-in-out" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.77 8.79a.75.75 0 00-1.06-.02L12 14.94 6.29 8.23a.75.75 0 00-1.06 1.06l6.24 6.25a.75.75 0 001.06 0l6.24-6.25a.75.75 0 00-.02-1.06z" clip-rule="evenodd"/></svg>
-                                            @endif
-                                        @else
-                                            <svg class="h-4 w-4 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-150 ease-in-out" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.77 8.79a.75.75 0 00-1.06-.02L12 14.94 6.29 8.23a.75.75 0 00-1.06 1.06l6.24 6.25a.75.75 0 001.06 0l6.24-6.25a.75.75 0 00-.02-1.06z" clip-rule="evenodd"/></svg>
-                                        @endif
-                                    </span>
-                            </a>
-                        </th>
-                        <th class="px-6 py-4 font-semibold text-gray-900">
-                            @php
-                                $isSorted = $sort === 'role';
-                                $nextDirection = $isSorted && $direction === 'asc' ? 'desc' : 'asc';
-                                $params = array_merge(request()->query(), ['sort' => 'role', 'direction' => $nextDirection]);
-                            @endphp
-                            <a href="{{ route('users.index', $params) }}" class="group inline-flex items-center gap-2 cursor-pointer hover:text-gray-600 transition">
-                                Peran
-                                <span class="inline-flex items-center">
-                                        @if($isSorted)
-                                            @if($direction === 'asc')
-                                                <svg class="h-4 w-4 text-gray-900 transition-opacity duration-150 ease-in-out" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 15.21a.75.75 0 001.06.02L12 10.56l5.71 4.67a.75.75 0 001.06-1.06l-6.24-5.11a.75.75 0 00-1.06 0L5.23 14.15a.75.75 0 00.02 1.06z" clip-rule="evenodd"/></svg>
-                                            @else
-                                                <svg class="h-4 w-4 text-gray-900 transition-opacity duration-150 ease-in-out" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.77 8.79a.75.75 0 00-1.06-.02L12 14.94 6.29 8.23a.75.75 0 00-1.06 1.06l6.24 6.25a.75.75 0 001.06 0l6.24-6.25a.75.75 0 00-.02-1.06z" clip-rule="evenodd"/></svg>
-                                            @endif
-                                        @else
-                                            <svg class="h-4 w-4 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-150 ease-in-out" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.77 8.79a.75.75 0 00-1.06-.02L12 14.94 6.29 8.23a.75.75 0 00-1.06 1.06l6.24 6.25a.75.75 0 001.06 0l6.24-6.25a.75.75 0 00-.02-1.06z" clip-rule="evenodd"/></svg>
-                                        @endif
-                                    </span>
-                            </a>
-                        </th>
-                        <th class="table-col-date px-6 py-4 font-semibold text-gray-900">
-                            @php
-                                $isSorted = $sort === 'created_at';
-                                $nextDirection = $isSorted && $direction === 'asc' ? 'desc' : 'asc';
-                                $params = array_merge(request()->query(), ['sort' => 'created_at', 'direction' => $nextDirection]);
-                            @endphp
-                            <a href="{{ route('users.index', $params) }}" class="group inline-flex items-center gap-2 cursor-pointer hover:text-gray-600 transition">
-                                Dibuat
-                                <span class="inline-flex items-center">
-                                        @if($isSorted)
-                                            @if($direction === 'asc')
-                                                <svg class="h-4 w-4 text-gray-900 transition-opacity duration-150 ease-in-out" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 15.21a.75.75 0 001.06.02L12 10.56l5.71 4.67a.75.75 0 001.06-1.06l-6.24-5.11a.75.75 0 00-1.06 0L5.23 14.15a.75.75 0 00.02 1.06z" clip-rule="evenodd"/></svg>
-                                            @else
-                                                <svg class="h-4 w-4 text-gray-900 transition-opacity duration-150 ease-in-out" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.77 8.79a.75.75 0 00-1.06-.02L12 14.94 6.29 8.23a.75.75 0 00-1.06 1.06l6.24 6.25a.75.75 0 001.06 0l6.24-6.25a.75.75 0 00-.02-1.06z" clip-rule="evenodd"/></svg>
-                                            @endif
-                                        @else
-                                            <svg class="h-4 w-4 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-150 ease-in-out" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.77 8.79a.75.75 0 00-1.06-.02L12 14.94 6.29 8.23a.75.75 0 00-1.06 1.06l6.24 6.25a.75.75 0 001.06 0l6.24-6.25a.75.75 0 00-.02-1.06z" clip-rule="evenodd"/></svg>
-                                        @endif
-                                    </span>
-                            </a>
-                        </th>
-                        <th class="table-col-actions px-6 py-4 font-semibold text-gray-900">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200">
-                    @foreach($users as $user)
-                        <tr>
-                            <td class="px-6 py-4 text-gray-900">{{ $user->name }}</td>
-                            <td class="px-6 py-4 text-gray-600">{{ $user->email }}</td>
-                            <td class="px-6 py-4 text-gray-600">{{ $user->role === 'manager' ? 'Manager' : 'Admin Gudang' }}</td>
-                            <td class="table-col-date px-6 py-4 text-gray-500">{{ $user->created_at->format('d M Y') }}</td>
-                            <td class="table-col-actions px-6 py-4">
+<x-table.table-wrapper title="Tabel Pengguna" description="Daftar akun manager dan admin gudang." :count="$users->total()">
+        <table class="table-standard text-sm text-left divide-y divide-gray-200 min-w-full">
+            <thead>
+                <tr>
+                    <x-table.table-header label="Nama" align="left" class="px-6 py-4 font-semibold text-gray-900" :sortable="true" sort-route="users.index" column="name" :current-sort="$sort" :direction="$direction" />
+                    <x-table.table-header label="Email" align="left" class="px-6 py-4 font-semibold text-gray-900" :sortable="true" sort-route="users.index" column="email" :current-sort="$sort" :direction="$direction" />
+                    <x-table.table-header label="Peran" align="center" class="px-6 py-4 font-semibold text-gray-900" :sortable="true" sort-route="users.index" column="role" :current-sort="$sort" :direction="$direction" />
+                    <x-table.table-header label="Dibuat" align="center" class="table-col-date px-6 py-4 font-semibold text-gray-900" :sortable="true" sort-route="users.index" column="created_at" :current-sort="$sort" :direction="$direction" />
+                    <x-table.table-header label="Aksi" align="center" class="table-col-actions px-6 py-4 font-semibold text-gray-900" />
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+                @foreach($users as $user)
+                    <x-table.table-row>
+                        <x-table.table-cell align="left" class="px-6 py-4 font-medium text-gray-900">{{ $user->name }}</x-table.table-cell>
+                        <x-table.table-cell align="left" class="px-6 py-4 text-gray-600">{{ $user->email }}</x-table.table-cell>
+                        <x-table.table-cell align="center" class="px-6 py-4 text-gray-600">{{ $user->role === 'manager' ? 'Manager' : 'Admin Gudang' }}</x-table.table-cell>
+                        <x-table.table-cell align="center" class="table-col-date px-6 py-4 text-gray-500">{{ $user->created_at->format('d M Y') }}</x-table.table-cell>
+                        <x-table.table-cell align="center" class="table-col-actions px-6 py-4">
+                            @if(auth()->user()->role === 'admin_gudang')
                                 <div class="flex flex-wrap gap-2">
                                     <a href="{{ route('users.edit', $user) }}" class="rounded-lg bg-slate-100 px-3 py-1 text-sm text-slate-700 hover:bg-slate-200 cursor-pointer">Edit</a>
                                     @if(auth()->id() !== $user->id)
@@ -135,16 +60,18 @@
                                         </form>
                                     @endif
                                 </div>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                            @else
+                                <span class="text-slate-500">Hanya lihat</span>
+                            @endif
+                        </x-table.table-cell>
+                    </x-table.table-row>
+                @endforeach
+            </tbody>
+        </table>
 
         <div class="border-t border-gray-200 px-6 py-4">
             {{ $users->links() }}
         </div>
-    </div>
+    </x-table.table-wrapper>
 </div>
 @endsection

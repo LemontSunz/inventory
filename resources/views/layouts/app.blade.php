@@ -16,15 +16,16 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="min-h-screen bg-slate-50 text-slate-900 antialiased">
-        <div class="min-h-screen">
+        <div class="min-h-screen bg-slate-50">
             @include('components.nav')
-            <div class="flex min-h-[calc(100vh-4rem)] overflow-visible bg-slate-50">
+
+            <div class="flex min-h-screen pt-20">
                 @auth
                     @include('components.sidebar')
                 @endauth
 
-                <main class="flex-1 px-4 py-6 sm:px-6 lg:px-8">
-                    <div class="mx-auto w-full max-w-[1400px]">
+                <main class="flex-1 min-w-0 px-6 py-6 @auth md:ml-72 @endauth">
+                    <div class="w-full">
                         @yield('content')
                     </div>
                 </main>

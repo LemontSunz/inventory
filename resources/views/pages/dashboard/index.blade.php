@@ -3,24 +3,23 @@
 @section('title', 'Dashboard - LogistikPro')
 
 @section('content')
-<div class="space-y-6">
-    <!-- Header Section -->
-    <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div>
-            <h2 class="text-3xl font-bold text-gray-900">Dashboard Warehouse</h2>
-            <p class="mt-2 text-gray-600">Selamat datang kembali! Pantau stok dan aktivitas gudang Anda.</p>
-        </div>
-        <div class="flex gap-2">
+<div class="space-y-4 max-w-screen-2xl w-full mx-auto px-6 sm:px-8 lg:px-10 xl:px-12">
+    <x-page-header
+        category="Dashboard"
+        title="Dashboard Warehouse"
+        description="Selamat datang kembali! Pantau stok dan aktivitas gudang Anda."
+    >
+        <x-slot:actionButton>
             <form method="GET" action="{{ route('dashboard') }}">
-                <button type="submit" class="group inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm border border-gray-300 hover:bg-gray-50 cursor-pointer">
+                <button type="submit" class="group inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-gray-700 shadow-sm border border-gray-300 hover:bg-gray-50 cursor-pointer">
                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     Refresh
                 </button>
             </form>
-        </div>
-    </div>
+        </x-slot:actionButton>
+    </x-page-header>
 
     <!-- Stats Grid -->
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -90,7 +89,7 @@
     </div>
 
     <!-- Charts -->
-    <div class="grid gap-6">
+    <div class="grid gap-4">
         <div class="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
             <div class="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
                 <div>
@@ -116,7 +115,7 @@
     </div>
 
     <!-- Content Grid -->
-    <div class="grid gap-6 lg:grid-cols-3">
+    <div class="grid gap-4 lg:grid-cols-3">
         <!-- Recent Activities (spans 2 cols on lg) -->
         <div class="rounded-xl bg-white shadow-sm border border-gray-200 lg:col-span-2">
             <div class="border-b border-gray-200 px-6 py-4">
