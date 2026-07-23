@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Kelola Barang Keluar - LogistikPro')
+@section('title', auth()->user()->role === 'manager' ? 'Laporan Barang Keluar - PT. Karya Makmur Mesindo' : 'Barang Keluar - PT. Karya Makmur Mesindo')
 
 @section('content')
 <div class="space-y-4 max-w-screen-2xl w-full mx-auto px-6 sm:px-8 lg:px-10 xl:px-12">
     <x-page-header
         category="MANAJEMEN GUDANG"
-        title="Kelola Barang Keluar"
-        description="Kelola transaksi distribusi barang ke setiap cabang berdasarkan data pengiriman yang tersedia."
+        title="{{ auth()->user()->role === 'manager' ? 'Laporan Barang Keluar' : 'Kelola Barang Keluar' }}"
+        description="{{ auth()->user()->role === 'manager' ? 'Menampilkan laporan distribusi barang ke cabang berdasarkan data pengiriman yang tersedia.' : 'Kelola transaksi distribusi barang ke setiap cabang berdasarkan data pengiriman yang tersedia.' }}"
     >
         <x-slot:actionButton>
             @if(auth()->user()->role === 'manager')

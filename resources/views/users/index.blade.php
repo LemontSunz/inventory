@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Kelola Pengguna - Inventory SaaS')
+@section('title', 'Kelola Pengguna - PT. Karya Makmur Mesindo')
 
 @section('content')
 <div class="space-y-4 max-w-screen-2xl w-full mx-auto px-6 sm:px-8 lg:px-10 xl:px-12">
@@ -49,7 +49,7 @@
                         <x-table.table-cell align="center" class="px-6 py-4 text-gray-600">{{ $user->role === 'manager' ? 'Manager' : 'Admin Gudang' }}</x-table.table-cell>
                         <x-table.table-cell align="center" class="table-col-date px-6 py-4 text-gray-500">{{ $user->created_at->format('d M Y') }}</x-table.table-cell>
                         <x-table.table-cell align="center" class="table-col-actions px-6 py-4">
-                            @if(auth()->user()->role === 'admin_gudang')
+                            @if(auth()->user()->role === 'admin_gudang' || auth()->user()->role === 'manager')
                                 <div class="flex flex-wrap gap-2">
                                     <a href="{{ route('users.edit', $user) }}" class="rounded-lg bg-slate-100 px-3 py-1 text-sm text-slate-700 hover:bg-slate-200 cursor-pointer">Edit</a>
                                     @if(auth()->id() !== $user->id)

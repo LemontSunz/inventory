@@ -41,8 +41,9 @@ class IncomingGoods extends Model
     public static function generateReceivingCode(): string
     {
         $lastRecord = self::select('receiving_code')
+            ->whereNotNull('receiving_code')
+            ->where('receiving_code', 'like', 'TRM-%')
             ->orderBy('id', 'desc')
-            ->lockForUpdate()
             ->first();
 
         $lastNumber = 0;

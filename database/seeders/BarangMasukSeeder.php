@@ -22,42 +22,36 @@ class BarangMasukSeeder extends Seeder
                 'kode_barang' => 'BD-350',
                 'receiving_date' => '2026-06-03',
                 'quantity_received' => 8,
-                'supplier' => 'Demo Supplier A',
                 'lokasi_rak' => 'R1-A',
             ],
             [
                 'kode_barang' => 'BD-550',
                 'receiving_date' => '2026-06-05',
                 'quantity_received' => 6,
-                'supplier' => 'Demo Supplier B',
                 'lokasi_rak' => 'R1-B',
             ],
             [
                 'kode_barang' => 'SD-338',
                 'receiving_date' => '2026-06-10',
                 'quantity_received' => 5,
-                'supplier' => 'Demo Supplier A',
                 'lokasi_rak' => 'R2-A',
             ],
             [
                 'kode_barang' => 'LG-170',
                 'receiving_date' => '2026-06-12',
                 'quantity_received' => 10,
-                'supplier' => 'Demo Supplier C',
                 'lokasi_rak' => 'R2-B',
             ],
             [
                 'kode_barang' => 'LG-236',
                 'receiving_date' => '2026-06-18',
                 'quantity_received' => 7,
-                'supplier' => 'Demo Supplier C',
                 'lokasi_rak' => 'R3-A',
             ],
             [
                 'kode_barang' => 'IC-300',
                 'receiving_date' => '2026-06-22',
                 'quantity_received' => 4,
-                'supplier' => 'Demo Supplier D',
                 'lokasi_rak' => 'R3-B',
             ],
         ];
@@ -107,7 +101,27 @@ class BarangMasukSeeder extends Seeder
                 ->whereMonth('receiving_date', 6)
                 ->delete();
 
-            foreach ($seedItems as $item) {
+            $supplierNames = DB::table('suppliers')->pluck('name')->all();
+            $supplierIdByName = DB::table('suppliers')->pluck('id', 'name')->all();
+            if ($supplierNames === []) {
+                $this->call(SupplierSeeder::class);
+                $supplierNames = DB::table('suppliers')->pluck('name')->all();
+                $supplierIdByName = DB::table('suppliers')->pluck('id', 'name')->all();
+            }
+            $supplierPool = [
+                'Guangzhou Kitchen Equipment Co., Ltd.',
+                'Shanghai Horeca Supply Co., Ltd.',
+                'Qingdao Food Equipment Co., Ltd.',
+                'Ningbo Commercial Kitchen Co., Ltd.',
+                'Shenzhen Catering Equipment Co., Ltd.',
+                'Foshan Kitchen Solutions Co., Ltd.',
+                'Zhejiang Restaurant Equipment Co., Ltd.',
+                'Seoul Kitchen Technology Co., Ltd.',
+                'Busan Refrigeration Solutions Co., Ltd.',
+                'Osaka Food Machinery Co., Ltd.',
+            ];
+
+            foreach ($seedItems as $index => $item) {
                 $barang = Barang::where('kode_barang', $item['kode_barang'])->first();
                 if (! $barang) {
                     continue;
@@ -118,12 +132,18 @@ class BarangMasukSeeder extends Seeder
                     ['label' => $item['lokasi_rak'], 'description' => 'Seeded June 2026 rack location']
                 );
 
+                $supplierName = $supplierPool[$index % count($supplierPool)] ?? $supplierNames[0] ?? null;
+                $supplierId = $supplierIdByName[$supplierName] ?? null;
+                if ($supplierId === null && $supplierNames !== []) {
+                    $supplierId = $supplierIdByName[$supplierNames[0]] ?? null;
+                }
+
                 $incomingGoods = IncomingGoods::create([
                     'receiving_code' => IncomingGoods::generateReceivingCode(),
                     'container_number' => null,
                     'receiving_date' => $item['receiving_date'],
-                    'supplier_id' => null,
-                    'supplier' => $item['supplier'],
+                    'supplier_id' => $supplierId,
+                    'supplier' => $supplierName,
                     'delivery_order_number' => null,
                     'description' => $seedMarker,
                     'created_by' => $user->id,

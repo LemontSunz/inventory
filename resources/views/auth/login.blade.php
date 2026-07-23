@@ -1,14 +1,19 @@
 @extends('layouts.app')
 
-@section('title', 'Login - Inventory SaaS')
+@section('title', 'Login - PT. Karya Makmur Mesindo')
 
 @section('content')
-<div class="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
-    <div class="w-full max-w-md space-y-6 rounded-3xl bg-white p-8 shadow-xl ring-1 ring-slate-200">
-        <div class="text-center">
-            <h2 class="text-2xl font-semibold text-slate-900">Masuk ke Logistik</h2>
-            <p class="mt-2 text-sm text-slate-500">Gunakan akun manager atau admin gudang Anda.</p>
-        </div>
+@php($loginBackground = asset('images/login-bg.png'))
+<div class="relative -mx-6 -my-6 min-h-[calc(100vh-5rem)] w-[calc(100%+3rem)] overflow-hidden">
+    <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ $loginBackground }}');"></div>
+    <div class="absolute inset-0 bg-black/45"></div>
+
+    <div class="relative flex min-h-[calc(100vh-5rem)] w-full items-center justify-center overflow-hidden p-0">
+        <div class="w-full max-w-md rounded-xl bg-white p-8 shadow-xl">
+            <div class="text-center">
+                <h2 class="text-2xl font-semibold text-slate-900">Masuk ke Logistik</h2>
+                <p class="mt-2 text-sm text-slate-500">Gunakan akun manager atau admin gudang Anda.</p>
+            </div>
 
         @if($errors->any())
             <div class="rounded-xl bg-red-50 p-4 text-red-700 ring-1 ring-red-200">
@@ -20,7 +25,7 @@
             </div>
         @endif
 
-        <form class="space-y-4" method="POST" action="{{ route('login.submit') }}">
+        <form class="mt-6 space-y-4" method="POST" action="{{ route('login.submit') }}">
             @csrf
 
             <div>
@@ -46,16 +51,9 @@
                 </div>
             </div>
 
-            <div class="flex items-center justify-between text-sm text-slate-500">
-                <label class="group inline-flex items-center gap-2">
-                    <input type="checkbox" name="remember" class="h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500" />
-                    Ingat saya
-                </label>
-                <a href="#" class="font-medium text-sky-600 hover:text-sky-700 cursor-pointer">Lupa password?</a>
-            </div>
-
-            <button type="submit" class="w-full rounded-2xl bg-sky-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-sky-700 cursor-pointer">Masuk</button>
+            <button type="submit" class="mt-2 w-full rounded-2xl bg-sky-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-sky-700 cursor-pointer">Masuk</button>
         </form>
+        </div>
     </div>
 </div>
 @endsection

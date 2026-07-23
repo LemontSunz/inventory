@@ -3,7 +3,8 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>{{ config('app.name', 'Inventory SaaS') }}</title>
+        <title>@yield('title', 'PT. Karya Makmur Mesindo')</title>
+        <link rel="icon" type="image/jpeg" href="{{ asset('images/crown-horeca.jpg') }}">
 
         <!-- jQuery -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

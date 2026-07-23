@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'Laporan Stok Barang - LogistikPro')
+@section('title', 'Laporan Stok Barang - PT. Karya Makmur Mesindo')
 
 @section('content')
 <div class="space-y-4 max-w-screen-2xl w-full mx-auto px-6 sm:px-8 lg:px-10 xl:px-12">
     <x-page-header
         category="LAPORAN"
-        title="Stok Barang"
+        title="{{ auth()->user()->role === 'manager' ? 'Laporan Stok Barang' : 'Stok Barang' }}"
         description="Menampilkan informasi stok barang beserta riwayat barang masuk dan barang keluar sebagai bahan pemantauan persediaan."
     >
         <x-slot:actionButton>

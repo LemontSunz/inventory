@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Barang Masuk - LogistikPro')
+@section('title', auth()->user()->role === 'manager' ? 'Laporan Barang Masuk - PT. Karya Makmur Mesindo' : 'Barang Masuk - PT. Karya Makmur Mesindo')
 
 @section('content')
 <div class="space-y-4 max-w-screen-2xl w-full mx-auto px-6 sm:px-8 lg:px-10 xl:px-12">
     <x-page-header
         category="MANAJEMEN GUDANG"
-        title="Kelola Barang Masuk"
-        description="Kelola transaksi penerimaan barang untuk memastikan pencatatan stok masuk dilakukan secara akurat."
+        title="{{ auth()->user()->role === 'manager' ? 'Laporan Barang Masuk' : 'Kelola Barang Masuk' }}"
+        description="{{ auth()->user()->role === 'manager' ? 'Menampilkan laporan transaksi penerimaan barang berdasarkan periode dan filter yang dipilih.' : 'Kelola transaksi penerimaan barang untuk memastikan pencatatan stok masuk dilakukan secara akurat.' }}"
     >
         <x-slot:actionButton>
             @if(auth()->user()->role === 'manager')
@@ -152,7 +152,7 @@
                             <x-table.table-row>
                                 <x-table.table-cell align="center" class="font-semibold text-slate-900">{{ $incomingGoods->firstItem() + $loop->index }}</x-table.table-cell>
                                 <x-table.table-cell align="center">{{ $item->receiving_code }}</x-table.table-cell>
-                                <x-table.table-cell align="center">{{ $item->receiving_date->format('Y-m-d') }}</x-table.table-cell>
+                                <x-table.table-cell align="center">{{ optional($item->receiving_date)->format('d M Y') ?? '-' }}</x-table.table-cell>
                                 <x-table.table-cell align="left">{{ $item->supplier_name ?? $item->supplier ?? '-' }}</x-table.table-cell>
                                 <x-table.table-cell align="center">{{ $item->details->count() }}</x-table.table-cell>
                                 <x-table.table-cell align="center" class="font-medium text-slate-900">{{ $item->details->sum('quantity_received') }}</x-table.table-cell>

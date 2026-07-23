@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Data Cabang - LogistikPro')
+@section('title', 'Data Cabang - PT. Karya Makmur Mesindo')
 
 @section('content')
 <div class="space-y-4 max-w-screen-2xl w-full mx-auto px-6 sm:px-8 lg:px-10 xl:px-12">

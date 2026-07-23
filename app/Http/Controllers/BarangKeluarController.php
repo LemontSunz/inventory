@@ -369,6 +369,7 @@ class BarangKeluarController extends Controller
         $search = $request->get('search');
         $bulan = $request->get('bulan');
         $tahun = $request->get('tahun');
+        $status = $request->get('status');
 
         $query = BarangKeluar::with(['details.item', 'cabang', 'driver', 'kendaraan'])
             ->orderBy('tanggal_keluar', 'desc');
@@ -397,6 +398,7 @@ class BarangKeluarController extends Controller
         $pdf = Pdf::loadView('pdfs.barang-keluar', [
             'barangKeluars' => $barangKeluars,
             'search' => $search,
+            'status' => $status,
             'bulan' => $bulan,
             'tahun' => $tahun,
             'printDate' => now(),
